@@ -51,7 +51,7 @@ abstract class Password {
 	 * @param int $length
 	 *    The number of characters that the salt should be
 	 *
-	 * @return
+	 * @return string
 	 *    Returns a salt that can be used to salt a password hash
 	 */
 	final static private function createPasswordSalt($length = 16) {
@@ -88,13 +88,13 @@ abstract class Password {
 	/**
 	 * Generate a 104 character password hash
 	 *
-	 * @param $password
+	 * @param string $password
 	 *    The plain text password
 	 *
-	 * @param $salt
+	 * @param string $salt
 	 *    The salt to use to generate the password
 	 *
-	 * @return
+	 * @return string
 	 *    Returns the 104-character hashed and salted password
 	 */
 	final static public function createPasswordHash($password, $salt = null) {
@@ -105,13 +105,13 @@ abstract class Password {
 	/**
 	 * Compare a password with a hash
 	 *
-	 * @param $password
+	 * @param string $password
 	 *    The plain text password to compare
 	 *
-	 * @param $hash
+	 * @param string $hash
 	 *    The 104 character password hash
 	 *
-	 * @return
+	 * @return bool
 	 *    Returns TRUE if the password matches, FALSE if not
 	 */
 	final static public function comparePassword($password, $hash) {
