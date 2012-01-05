@@ -76,7 +76,6 @@ abstract class Password {
 	 *      Derived key
 	 */
 	final static private function pbkdf2($p, $s) {
-		$hl = strlen(hash('whirlpool', null, true));
 		$ib = $b = hash_hmac('whirlpool', $s . pack('N', 1), $p, true);
 		for ($i = 1; $i < AUTH_LEVEL * 1000; $i++) {
 			$ib ^= ($b = hash_hmac('whirlpool', $b . AUTH_SALT, $p, true));
