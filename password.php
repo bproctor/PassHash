@@ -3,19 +3,18 @@
 /**
  * password.php
  *
- * Copyright (c) 2010-2011 Brad Proctor. (http://bradleyproctor.com)
+ * Copyright (c) 2010-2012 Brad Proctor. (http://bradleyproctor.com)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
  * @author      Brad Proctor
- * @copyright   Copyright (c) 2010-2011 Brad Proctor
+ * @copyright   Copyright (c) 2010-2012 Brad Proctor
  * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link        http://bradleyproctor.com/
  * @since       1.0
  * @version     1.3
  */
-
 /*
  * Required values:
  * AUTH_SALT: a unique site-wide value to compliment the unique salts
@@ -35,9 +34,9 @@ define('AUTH_LEVEL', 5);
  * http://bradleyproctor.com/tools/salt.php
  *
  * Usage:
- * $hash = Password::createPasswordHash('password');  // Store this value in your database
+ * $hash = Password::create_hash('password');  // Store this value in your database
  *
- * if (Password::comparePassword('password', $hash) === true) {
+ * if (Password::compare('password', $hash) === true) {
  *    // Password is correct
  * } else {
  *    // Password was incorrect
@@ -54,7 +53,7 @@ abstract class Password {
 	 * @return string
 	 *    Returns a salt that can be used to salt a password hash
 	 */
-	final static private function createPasswordSalt($length = 16) {
+	final static private function create_salt($length = 16) {
 		$salt = '';
 		while (strlen($salt) < $length) {
 			$salt .= pack('C', dechex(mt_rand()));
@@ -97,8 +96,8 @@ abstract class Password {
 	 * @return string
 	 *    Returns the 104-character hashed and salted password
 	 */
-	final static public function createPasswordHash($password, $salt = null) {
-		$salt or $salt = static::createPasswordSalt();
+	final static public function create_hash($password, $salt = null) {
+		$salt or $salt = static::create_salt();
 		return $salt . static::pbkdf2($password, $salt);
 	}
 
@@ -114,8 +113,8 @@ abstract class Password {
 	 * @return bool
 	 *    Returns TRUE if the password matches, FALSE if not
 	 */
-	final static public function comparePassword($password, $hash) {
-		return $hash === static::createPasswordHash($password, substr($hash, 0, 16), AUTH_LEVEL);
+	final static public function compare($password, $hash) {
+		return $hash === static::create_hash($password, substr($hash, 0, 16), AUTH_LEVEL);
 	}
 
 }
