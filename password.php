@@ -34,7 +34,7 @@ define('AUTH_LEVEL', 5);
  * http://bradleyproctor.com/tools/salt.php
  *
  * Usage:
- * $hash = Password::create_hash('password');  // Store this value in your database
+ * $hash = Password::hash('password');  // Store this value in your database
  *
  * if (Password::compare('password', $hash) === true) {
  *    // Password is correct
@@ -53,7 +53,7 @@ abstract class Password {
 	 * @return string
 	 *    Returns a salt that can be used to salt a password hash
 	 */
-	final static private function create_salt($length = 16) {
+	final static private function salt($length = 16) {
 		$salt = '';
 		while (strlen($salt) < $length) {
 			$salt .= pack('C', dechex(mt_rand()));
@@ -95,8 +95,8 @@ abstract class Password {
 	 * @return string
 	 *    Returns the 104-character hashed and salted password
 	 */
-	final static public function create_hash($password, $salt = null) {
-		$salt or $salt = static::create_salt();
+	final static public function hash($password, $salt = null) {
+		$salt or $salt = static::salt();
 		return $salt . static::pbkdf2($password, $salt);
 	}
 
@@ -113,7 +113,7 @@ abstract class Password {
 	 *    Returns TRUE if the password matches, FALSE if not
 	 */
 	final static public function compare($password, $hash) {
-		return 0 === strcmp($hash, static::create_hash($password, substr($hash, 0, 16), AUTH_LEVEL));
+		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, 16), AUTH_LEVEL));
 	}
 
 }
