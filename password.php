@@ -113,7 +113,7 @@ abstract class Password {
 	 *    Returns TRUE if the password matches, FALSE if not
 	 */
 	final static public function compare($password, $hash) {
-		return $hash === static::create_hash($password, substr($hash, 0, 16), AUTH_LEVEL);
+		return 0 === strcmp($hash, static::create_hash($password, substr($hash, 0, 16), AUTH_LEVEL));
 	}
 
 }
