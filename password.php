@@ -42,7 +42,8 @@ define('AUTH_LEVEL', 5);
  *    // Password was incorrect
  * }
  */
-abstract class Password {
+abstract class Password
+{
 
 	/**
 	 * Generate a password salt
@@ -53,7 +54,8 @@ abstract class Password {
 	 * @return string
 	 *    Returns a salt that can be used to salt a password hash
 	 */
-	final static private function salt($length = 16) {
+	final private static function salt($length = 16)
+	{
 		$salt = '';
 		while (strlen($salt) < $length) {
 			$salt .= pack('C', dechex(mt_rand()));
@@ -75,7 +77,8 @@ abstract class Password {
 	 *  @return string
 	 *      Derived key
 	 */
-	final static private function pbkdf2($p, $s) {
+	final private static function pbkdf2($p, $s)
+	{
 		$ib = $b = hash_hmac('whirlpool', $s . AUTH_SALT, $p, true);
 		for ($i = 1; $i < AUTH_LEVEL * 1000; $i++) {
 			$ib ^= ($b = hash_hmac('whirlpool', $b . AUTH_SALT, $p, true));
@@ -95,7 +98,8 @@ abstract class Password {
 	 * @return string
 	 *    Returns the 104-character hashed and salted password
 	 */
-	final static public function hash($password, $salt = null) {
+	final public static function hash($password, $salt = null)
+	{
 		$salt or $salt = static::salt();
 		return $salt . static::pbkdf2($password, $salt);
 	}
@@ -112,7 +116,8 @@ abstract class Password {
 	 * @return bool
 	 *    Returns TRUE if the password matches, FALSE if not
 	 */
-	final static public function compare($password, $hash) {
+	final public static function compare($password, $hash)
+	{
 		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, 16), AUTH_LEVEL));
 	}
 
