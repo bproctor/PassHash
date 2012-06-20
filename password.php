@@ -71,10 +71,10 @@ abstract class Password
 	 * Password-Based Key Derivation Function
 	 * (Simplified, since some variables are known)
 	 *
-	 * @param string $p
+	 * @param string $password
 	 *      The plain text password
 	 *
-	 * @param string $s
+	 * @param string $salt
 	 *      The salt used to generate the hash
 	 *
 	 * @return string
@@ -82,11 +82,11 @@ abstract class Password
 	 *
 	 * @access private
 	 */
-	final private static function pbkdf2($p, $s)
+	final private static function pbkdf2($password, $salt)
 	{
-		$ib = $b = hash_hmac('whirlpool', $s . AUTH_SALT, $p, true);
+		$ib = $b = hash_hmac('whirlpool', $salt . AUTH_SALT, $password, true);
 		for ($i = 1; $i < AUTH_LEVEL * 1000; $i++) {
-			$ib ^= ($b = hash_hmac('whirlpool', $b . AUTH_SALT, $p, true));
+			$ib ^= ($b = hash_hmac('whirlpool', $b . AUTH_SALT, $password, true));
 		}
 		return base64_encode($ib);
 	}
