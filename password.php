@@ -61,10 +61,10 @@ abstract class Password
 	final private static function salt()
 	{
 		$salt = '';
-		while (strlen($salt) < self::saltLength) {
+		while (strlen($salt) < static::saltLength) {
 			$salt .= pack('C', dechex(mt_rand()));
 		}
-		return substr(base64_encode($salt), 0, self::saltLength);
+		return substr(base64_encode($salt), 0, static::saltLength);
 	}
 
 	/**
@@ -128,7 +128,7 @@ abstract class Password
 	 */
 	final public static function compare($password, $hash)
 	{
-		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, self::saltLength), AUTH_LEVEL));
+		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, static::saltLength), AUTH_LEVEL));
 	}
 
 }
