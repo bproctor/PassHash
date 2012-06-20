@@ -13,7 +13,7 @@
  * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link        http://bradleyproctor.com/
  * @since       1.0
- * @version     1.6
+ * @version     1.7
  */
 /*
  * Required values:
