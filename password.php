@@ -45,6 +45,8 @@ define('AUTH_LEVEL', 5);
 abstract class Password
 {
 
+	const saltLength = 16;
+
 	/**
 	 * Generate a password salt
 	 *
@@ -54,13 +56,13 @@ abstract class Password
 	 * @return string
 	 *    Returns a salt that can be used to salt a password hash
 	 */
-	final private static function salt($length = 16)
+	final private static function salt()
 	{
 		$salt = '';
-		while (strlen($salt) < $length) {
+		while (strlen($salt) < self::saltLength) {
 			$salt .= pack('C', dechex(mt_rand()));
 		}
-		return substr(base64_encode($salt), 0, $length);
+		return substr(base64_encode($salt), 0, self::saltLength);
 	}
 
 	/**
@@ -118,7 +120,7 @@ abstract class Password
 	 */
 	final public static function compare($password, $hash)
 	{
-		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, 16), AUTH_LEVEL));
+		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, self::saltLength), AUTH_LEVEL));
 	}
 
 }
