@@ -3,6 +3,8 @@
 /**
  * password.php
  *
+ * A strong password hashing class for PHP
+ *
  * Copyright (c) 2010-2012 Brad Proctor. (http://bradleyproctor.com)
  *
  * Licensed under The MIT License
