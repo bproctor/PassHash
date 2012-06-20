@@ -55,6 +55,8 @@ abstract class Password
 	 *
 	 * @return string
 	 *    Returns a salt that can be used to salt a password hash
+	 *
+	 * @access private
 	 */
 	final private static function salt()
 	{
@@ -66,18 +68,20 @@ abstract class Password
 	}
 
 	/**
-	 *  PBKDF2 Implementation (described in RFC 2898)
-	 *  Password-Based Key Derivation Function
-	 *  (Simplified, since some variables are known)
+	 * PBKDF2 Implementation (described in RFC 2898)
+	 * Password-Based Key Derivation Function
+	 * (Simplified, since some variables are known)
 	 *
-	 *  @param string $p
+	 * @param string $p
 	 *      The plain text password
 	 *
-	 *  @param string $s
+	 * @param string $s
 	 *      The salt used to generate the hash
 	 *
-	 *  @return string
-	 *      Derived key
+	 * @return string
+	 *		Derived key
+	 *
+	 * @access private
 	 */
 	final private static function pbkdf2($p, $s)
 	{
@@ -99,6 +103,8 @@ abstract class Password
 	 *
 	 * @return string
 	 *    Returns the 104-character hashed and salted password
+	 *
+	 * @access public
 	 */
 	final public static function hash($password, $salt = null)
 	{
@@ -117,6 +123,8 @@ abstract class Password
 	 *
 	 * @return bool
 	 *    Returns TRUE if the password matches, FALSE if not
+	 *
+	 * @access public
 	 */
 	final public static function compare($password, $hash)
 	{
