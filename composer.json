@@ -1,5 +1,5 @@
 {
-	"name": "bproctor/PassHash",
+	"name": "bproctor/passhash",
 	"repositories": [
         {
             "type": "vcs",
