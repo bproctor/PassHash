@@ -1,7 +1,7 @@
 <?php
 
 /**
- * password.php
+ * passhash.php
  *
  * A strong password hashing class for PHP
  *
@@ -16,15 +16,6 @@
  * @link        http://bradleyproctor.com/
  * @version     1.8
  */
-/*
- * Required values:
- * AUTH_SALT: a unique site-wide value to compliment the unique salts
- * AUTH_LEVEL: Used for key stretching.  It is used to calculate the number of iterations to run the
- *    hashing algorithm. Raise this to increase security, lower this to make it run faster.  Default value
- *    is 5.
- */
-define('AUTH_SALT', 'jS#W_;[;sjiNOUc9NG,S3T76NOTmK~%mu|#WI9-v.l^Bt]6H)1wz:kc=hPtS+JZv)haB!0dTo}klfWrr');
-define('AUTH_LEVEL', 5);
 
 /**
  * The Password class works by generating a 104-character hash.  The first 16 characters are a unique
@@ -35,18 +26,33 @@ define('AUTH_LEVEL', 5);
  * http://bradleyproctor.com/tools/salt.php
  *
  * Usage:
- * $hash = Password::hash('password');  // Store this value in your database
+ * $hash = Passhash::hash('password');  // Store this value in your database
  *
- * if (Password::compare('password', $hash) === true) {
+ * if (Passhash::compare('password', $hash) === true) {
  *    // Password is correct
  * } else {
  *    // Password was incorrect
  * }
  */
-abstract class Password
+abstract class Passhash
 {
 
+	/**
+	 * Number of characters in the salt value
+	 */
 	const saltLength = 16;
+
+	/**
+	 * a unique site-wide value to compliment the unique salts
+	 */
+	const authSalt = 'jS#W_;[;sjiNOUc9NG,S3T76NOTmK~%mu|#WI9-v.l^Bt]6H)1wz:kc=hPtS+JZv)haB!0dTo}klfWrr';
+
+	/**
+	 * Used for key stretching.  It is used to calculate the number of iterations to run the
+ 	 * hashing algorithm. Raise this to increase security, lower this to make it run faster.  Default value
+     * is 5.
+     */
+	const authLevel = 5;
 
 	/**
 	 * Generate a password salt
@@ -86,9 +92,9 @@ abstract class Password
 	 */
 	final private static function pbkdf2($password, $salt)
 	{
-		$ib = $b = hash_hmac('whirlpool', $salt . AUTH_SALT, $password, true);
-		for ($i = 1; $i < AUTH_LEVEL * 1000; $i++) {
-			$ib ^= ($b = hash_hmac('whirlpool', $b . AUTH_SALT, $password, true));
+		$ib = $b = hash_hmac('whirlpool', $salt . static::authSalt, $password, true);
+		for ($i = 1; $i < static::authLevel * 1000; $i++) {
+			$ib ^= ($b = hash_hmac('whirlpool', $b . static::authSalt, $password, true));
 		}
 		return base64_encode($ib);
 	}
@@ -129,7 +135,7 @@ abstract class Password
 	 */
 	final public static function compare($password, $hash)
 	{
-		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, static::saltLength), AUTH_LEVEL));
+		return 0 === strcmp($hash, static::hash($password, substr($hash, 0, static::saltLength), static::authLevel));
 	}
 
 }

@@ -1,0 +1,9 @@
+{
+	"name": "bproctor/PassHash",
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bproctor/PassHash"
+        }
+    ]
+}
