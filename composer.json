@@ -1,5 +1,19 @@
 {
     "name": "bproctor/passhash",
+    "description": "Strong, simple password hashing",
+    "homepage": "https://github.com/bproctor/PassHash",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+    	{
+    		"name": "Brad Proctor",
+    		"email": "brad@bradleyproctor.com",
+    		"homepage": "http://bradleyproctor.com"
+    	}
+    ],
+    "require": {
+    	"php": ">=5.3.0"
+    },
     "repositories": [
         {
             "type": "vcs",
