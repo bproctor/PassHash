@@ -14,7 +14,7 @@
  * @copyright   Copyright (c) 2010-2012 Brad Proctor
  * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link        http://bradleyproctor.com/
- * @version     1.9.0
+ * @version     1.9.1
  */
 
 /**
