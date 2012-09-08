@@ -22,7 +22,7 @@
  * salt value that is generated for each password.  The rest of the 88 characters is the hash generated
  * by the whirlpool algorithm, which is much stronger than common md5 or sha1 methods.  The hash value is
  * also created using the HMAC method and a site wide key is used to further secure the hash.  The site
- * wide key can be any value, but a very strong 80-character unique value for AUTH_SALT can be generated at
+ * wide key can be any value, but a very strong 80-character unique value for 'authPepper' can be generated at
  * http://bradleyproctor.com/tools/salt.php
  *
  * Usage:
@@ -43,9 +43,10 @@ abstract class Passhash
     const saltLength = 16;
 
     /**
-     * a unique site-wide value to compliment the unique salts
+     * a unique site-wide value (pepper) to compliment the unique salts.
+     * Change this to a unique value.
      */
-    const authSalt = 'jS#W_;[;sjiNOUc9NG,S3T76NOTmK~%mu|#WI9-v.l^Bt]6H)1wz:kc=hPtS+JZv)haB!0dTo}klfWrr';
+    const authPepper = 'jS#W_;[;sjiNOUc9NG,S3T76NOTmK~%mu|#WI9-v.l^Bt]6H)1wz:kc=hPtS+JZv)haB!0dTo}klfWrr';
 
     /**
      * Used for key stretching.  It is used to calculate the number of iterations to run the
@@ -53,6 +54,8 @@ abstract class Passhash
      * is 5.
      */
     const authLevel = 5;
+
+    /*************************************************************************************/
 
     /**
      * Generate a password salt
@@ -92,9 +95,9 @@ abstract class Passhash
      */
     final private static function pbkdf2($password, $salt)
     {
-        $ib = $b = hash_hmac('whirlpool', $salt . static::authSalt, $password, true);
+        $ib = $b = hash_hmac('whirlpool', $salt . static::authPepper, $password, true);
         for ($i = 1; $i < static::authLevel * 1000; $i++) {
-            $ib ^= ($b = hash_hmac('whirlpool', $b . static::authSalt, $password, true));
+            $ib ^= ($b = hash_hmac('whirlpool', $b . static::authPepper, $password, true));
         }
         return base64_encode($ib);
     }
